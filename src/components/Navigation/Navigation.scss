@@ -1,0 +1,40 @@
+.nav {
+    width: 100%;
+
+    &__list {
+        list-style: none;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    &__item {
+    }
+
+    &__link {
+        &:link,
+        &:visited {
+            text-decoration: none;
+            display: block;
+            padding: 0.8rem 1.6rem;
+            font-size: inherit;
+            font-family: inherit;
+            color: rgb(0, 50, 255);
+            background-color: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+        }
+
+        &.active,
+        &:hover,
+        &:active {
+            background-color: rgba(60, 120, 255, 0.1);
+            border-color: rgb(0, 50, 255);
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+}
