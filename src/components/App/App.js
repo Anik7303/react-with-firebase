@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component, Fragment } from "react";
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 
 import "./App.scss";
@@ -13,34 +13,49 @@ import PasswordForget from "../PasswordForget/PasswordForget";
 import PasswordReset from "../PasswordReset/PasswordReset";
 import SignIn from "../SignIn/SignIn";
 import SignUp from "../SignUp/SignUp";
-import { withFirebase } from "../Firebase/index";
+import { withAuthentication } from "../Session/index";
 
-const signOutHandler = (props) => {
-    const { firebase } = props;
-    console.log(props);
-    firebase.signOut().catch((error) => console.log(error));
-    return <Redirect to={Routes.HOME} />;
-};
+class App extends Component {
+    state = { error: null };
 
-const App = (props) => {
-    return (
-        <Router basename="/">
-            <Navigation />
-            {/* <hr /> */}
-            <Switch>
+    render() {
+        console.log("App: props: ", this.props, " state: ", this.state);
+
+        const { error } = this.state;
+        const { user: authUser, signOutHandler } = this.props;
+
+        const authRoutes = (
+            <Fragment>
                 <Route exact path={Routes.HOME} component={Home} />
                 <Route exact path={Routes.DASHBOARD} component={Dashboard} />
-                <Route exact path={Routes.SIGN_IN} component={SignIn} />
-                <Route exact path={Routes.SIGN_UP} component={SignUp} />
                 <Route exact path={Routes.PASSWORD_CHANGE} component={PasswordChange} />
-                <Route exact path={Routes.PASSWORD_FORGET} component={PasswordForget} />
-                <Route exact path={Routes.PASSWORD_RESET} component={PasswordReset} />
                 <Route exact path={Routes.ACCOUNT} component={Account} />
                 <Route exact path={Routes.ADMIN} component={Admin} />
-                <Route exact path={Routes.SIGN_OUT} render={() => signOutHandler(props)} />
-            </Switch>
-        </Router>
-    );
-};
+                <Route exact path={Routes.SIGN_OUT} render={() => signOutHandler()} />
+                <Redirect to={Routes.HOME} />
+            </Fragment>
+        );
 
-export default withFirebase(App);
+        const nonAuthRoutes = (
+            <Fragment>
+                <Route exact path={Routes.HOME} component={Home} />
+                <Route exact path={Routes.SIGN_IN} component={SignIn} />
+                <Route exact path={Routes.SIGN_UP} component={SignUp} />
+                <Route exact path={Routes.PASSWORD_FORGET} component={PasswordForget} />
+                <Route exact path={Routes.PASSWORD_RESET} component={PasswordReset} />
+                <Redirect to={Routes.HOME} />
+            </Fragment>
+        );
+
+        return (
+            <Router basename="/">
+                <Navigation />
+                {error && <p className="error">{error}</p>}
+                {/* <hr /> */}
+                <Switch>{authUser ? authRoutes : nonAuthRoutes}</Switch>
+            </Router>
+        );
+    }
+}
+
+export default withAuthentication(App);

@@ -33,7 +33,6 @@ class SignUpForm extends Component {
             .createUserWithEmailAndPassword(email, password)
             .then((authUser) => {
                 this.setState({ ...INITIAL_STATE });
-                console.log(this.props);
                 this.props.history.push(Routes.HOME);
             })
             .catch((error) => {

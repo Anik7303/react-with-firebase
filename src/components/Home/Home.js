@@ -1,9 +1,11 @@
 import React from "react";
+import { compose } from "recompose";
 
 import { withFirebase } from "../Firebase/index";
+import { withUser } from "../Session/index";
 
 const Home = (props) => {
-    const user = props.firebase.getUser() || null;
+    const { user } = props;
     return (
         <div>
             <h1>Home</h1>
@@ -12,4 +14,4 @@ const Home = (props) => {
     );
 };
 
-export default withFirebase(Home);
+export default compose(withUser, withFirebase)(Home);

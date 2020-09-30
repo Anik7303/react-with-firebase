@@ -3,49 +3,50 @@ import { NavLink } from "react-router-dom";
 
 import "./Navigation.scss";
 import * as Routes from "../../constants/routes";
+import { withUser } from "../Session/index";
+
+const getRouteObject = (route, name) => ({ route: route, name: name });
 
 const Navigation = (props) => {
-    return (
-        <nav className="nav">
-            <ul className="nav__list">
-                <li className="nav__item">
-                    <NavLink exact to={Routes.HOME} className="nav__link">
-                        Home
+    console.log("Navigation: ", props);
+
+    const { user: authUser } = props;
+    const navListAuth = [
+        getRouteObject(Routes.HOME, "Home"),
+        getRouteObject(Routes.ACCOUNT, "Account"),
+        getRouteObject(Routes.ADMIN, "Admin"),
+        getRouteObject(Routes.DASHBOARD, "Dashboard"),
+        getRouteObject(Routes.SIGN_OUT, "Sign Out"),
+    ];
+    const navListNonAuth = [
+        getRouteObject(Routes.HOME, "Home"),
+        getRouteObject(Routes.SIGN_IN, "Log In"),
+        getRouteObject(Routes.SIGN_UP, "Sign Up"),
+    ];
+
+    const navList = authUser ? (
+        <ul className="nav__list">
+            {navListAuth.map((item, index) => (
+                <li className="nav__item" key={index}>
+                    <NavLink exact to={item.route} className="nav__link">
+                        {item.name}
                     </NavLink>
                 </li>
-                <li className="nav__item">
-                    <NavLink exact to={Routes.DASHBOARD} className="nav__link">
-                        Dashboard
+            ))}
+        </ul>
+    ) : (
+        <ul className="nav__list">
+            {navListNonAuth.map((item, index) => (
+                <li className="nav__item" key={index}>
+                    <NavLink exact to={item.route} className="nav__link">
+                        {item.name}
                     </NavLink>
                 </li>
-                <li className="nav__item">
-                    <NavLink exact to={Routes.ACCOUNT} className="nav__link">
-                        Account
-                    </NavLink>
-                </li>
-                <li className="nav__item">
-                    <NavLink exact to={Routes.ADMIN} className="nav__link">
-                        Admin
-                    </NavLink>
-                </li>
-                <li className="nav__item">
-                    <NavLink exact to={Routes.SIGN_UP} className="nav__link">
-                        Sign Up
-                    </NavLink>
-                </li>
-                <li className="nav__item">
-                    <NavLink exact to={Routes.SIGN_IN} className="nav__link">
-                        Log In
-                    </NavLink>
-                </li>
-                <li className="nav__item">
-                    <NavLink exact to={Routes.SIGN_OUT} className="nav__link">
-                        Sign Out
-                    </NavLink>
-                </li>
-            </ul>
-        </nav>
+            ))}
+        </ul>
     );
+
+    return <nav className="nav">{navList}</nav>;
 };
 
-export default Navigation;
+export default withUser(Navigation);

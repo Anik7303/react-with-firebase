@@ -19,7 +19,8 @@ class Firebase {
     }
 
     getUser() {
-        return this.auth.currentUser;
+        const user = this.auth.currentUser;
+        return user ? user : null;
     }
 
     createUserWithEmailAndPassword = (email, password) =>

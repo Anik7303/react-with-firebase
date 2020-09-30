@@ -1,5 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap");
 
+:root {
+    --color-primary: rgb(0, 50, 255);
+    --color-primary-light: rgb(60, 120, 255);
+    --color-primary-dark: rgb(0, 30, 151);
+    --color-white: #fff;
+    --color-black: #000;
+    --color-grey: #ccc;
+    --color-red: rgb(255, 0, 0);
+}
+
+::selection {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
 *,
 *::before,
 *::after {
