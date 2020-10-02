@@ -91,4 +91,3 @@ class SignUpForm extends Component {
 }
 
 export default compose(withRouter, withFirebase)(SignUpForm);
-// export default withRouter(withFirebase(SignUpForm));

@@ -5,9 +5,9 @@ const SIGN_OUT = "/signout";
 const DASHBOARD = "/dashboard";
 const ACCOUNT = "/account";
 const ADMIN = "/admin";
+const PASSWORD_CHANGE = "/password/change";
 const PASSWORD_FORGET = "/password/forget";
 const PASSWORD_RESET = "/password/reset";
-const PASSWORD_CHANGE = "/password/change";
 
 export {
     HOME,

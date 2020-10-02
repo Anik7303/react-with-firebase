@@ -10,7 +10,6 @@ import Dashboard from "../Dashboard/Dashboard";
 import Home from "../Home/Home";
 import PasswordChange from "../PasswordChange/PasswordChange";
 import PasswordForget from "../PasswordForget/PasswordForget";
-import PasswordReset from "../PasswordReset/PasswordReset";
 import SignIn from "../SignIn/SignIn";
 import SignUp from "../SignUp/SignUp";
 import { withAuthentication } from "../Session/index";
@@ -42,7 +41,8 @@ class App extends Component {
                 <Route exact path={Routes.SIGN_IN} component={SignIn} />
                 <Route exact path={Routes.SIGN_UP} component={SignUp} />
                 <Route exact path={Routes.PASSWORD_FORGET} component={PasswordForget} />
-                <Route exact path={Routes.PASSWORD_RESET} component={PasswordReset} />
+                {/* currently route not available for non-authorized users */}
+                {/* <Route exact path={Routes.PASSWORD_CHANGE} component={PasswordChange} /> */}
                 <Redirect to={Routes.HOME} />
             </Fragment>
         );
