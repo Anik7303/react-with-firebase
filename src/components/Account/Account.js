@@ -2,8 +2,11 @@ import React from "react";
 
 import { PasswordForgetForm } from "../PasswordForget/PasswordForget";
 import { PasswordChangeForm } from "../PasswordChange/PasswordChange";
+import { withAuthorization } from "../Session/index";
 
 const Account = (props) => {
+    const { user } = props;
+
     return (
         <div
             style={{
@@ -15,10 +18,13 @@ const Account = (props) => {
                 margin: "0 auto",
             }}
         >
+            <h3>Account: {user.email}</h3>
             <PasswordChangeForm />
             <PasswordForgetForm />
         </div>
     );
 };
 
-export default Account;
+const condition = (user) => user !== null;
+
+export default withAuthorization(condition)(Account);

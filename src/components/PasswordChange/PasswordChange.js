@@ -4,6 +4,7 @@ import { compose } from "recompose";
 
 import "./PasswordChange.scss";
 import { withFirebase } from "../Firebase/index";
+import { withAuthorization } from "../Session/index";
 import * as Routes from "../../constants/routes";
 
 const INITIAL_STATE = {
@@ -27,7 +28,7 @@ class PasswordChangeFormBase extends Component {
         this.props.firebase
             .passwordUpdate(this.state.password)
             .then(() => {
-                this.setState(...INITIAL_STATE);
+                this.setState({ ...INITIAL_STATE });
                 this.props.history.push(Routes.HOME);
             })
             .catch((error) => this.setState({ error: error }));
@@ -35,7 +36,7 @@ class PasswordChangeFormBase extends Component {
 
     render() {
         const { password, confirmPassword, error } = this.state;
-        const inValid = password !== confirmPassword;
+        const inValid = password !== confirmPassword || password === "";
 
         return (
             <form className="form" autoComplete="off">
@@ -43,7 +44,7 @@ class PasswordChangeFormBase extends Component {
                 {error && <p className="error">{error.message}</p>}
                 <input
                     className="form__input"
-                    type="text"
+                    type="password"
                     name="password"
                     placeholder="New Password"
                     value={password}
@@ -51,7 +52,7 @@ class PasswordChangeFormBase extends Component {
                 />
                 <input
                     className="form__input"
-                    type="text"
+                    type="password"
                     name="confirmPassword"
                     placeholder="Confirm Password"
                     value={confirmPassword}
@@ -75,5 +76,7 @@ const PasswordChange = (props) => {
     );
 };
 
-export default PasswordChange;
+const condition = (user) => user !== null;
+
+export default withAuthorization(condition)(PasswordChange);
 export { PasswordChangeForm };

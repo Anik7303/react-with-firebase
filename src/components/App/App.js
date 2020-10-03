@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 
 import "./App.scss";
@@ -18,41 +18,28 @@ class App extends Component {
     state = { error: null };
 
     render() {
-        console.log("App: props: ", this.props, " state: ", this.state);
-
         const { error } = this.state;
-        const { user: authUser, signOutHandler } = this.props;
-
-        const authRoutes = (
-            <Fragment>
-                <Route exact path={Routes.HOME} component={Home} />
-                <Route exact path={Routes.DASHBOARD} component={Dashboard} />
-                <Route exact path={Routes.PASSWORD_CHANGE} component={PasswordChange} />
-                <Route exact path={Routes.ACCOUNT} component={Account} />
-                <Route exact path={Routes.ADMIN} component={Admin} />
-                <Route exact path={Routes.SIGN_OUT} render={() => signOutHandler()} />
-                <Redirect to={Routes.HOME} />
-            </Fragment>
-        );
-
-        const nonAuthRoutes = (
-            <Fragment>
-                <Route exact path={Routes.HOME} component={Home} />
-                <Route exact path={Routes.SIGN_IN} component={SignIn} />
-                <Route exact path={Routes.SIGN_UP} component={SignUp} />
-                <Route exact path={Routes.PASSWORD_FORGET} component={PasswordForget} />
-                {/* currently route not available for non-authorized users */}
-                {/* <Route exact path={Routes.PASSWORD_CHANGE} component={PasswordChange} /> */}
-                <Redirect to={Routes.HOME} />
-            </Fragment>
-        );
+        const { signOutHandler } = this.props;
 
         return (
             <Router basename="/">
                 <Navigation />
                 {error && <p className="error">{error}</p>}
                 {/* <hr /> */}
-                <Switch>{authUser ? authRoutes : nonAuthRoutes}</Switch>
+                <Switch>
+                    <Route exact path={Routes.HOME} component={Home} />
+                    <Route exact path={Routes.DASHBOARD} component={Dashboard} />
+                    <Route exact path={Routes.ACCOUNT} component={Account} />
+                    <Route exact path={Routes.ADMIN} component={Admin} />
+                    <Route exact path={Routes.SIGN_UP} component={SignUp} />
+                    <Route exact path={Routes.SIGN_IN} component={SignIn} />
+                    <Route exact path={Routes.SIGN_OUT} render={() => signOutHandler()} />
+                    <Route exact path={Routes.PASSWORD_FORGET} component={PasswordForget} />
+                    <Route exact path={Routes.PASSWORD_CHANGE} component={PasswordChange} />
+                    {/* currently route not available for non-authorized users */}
+                    {/* <Route exact path={Routes.PASSWORD_CHANGE} component={PasswordChange} /> */}
+                    <Redirect to={Routes.HOME} />
+                </Switch>
             </Router>
         );
     }

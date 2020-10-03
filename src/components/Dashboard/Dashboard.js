@@ -1,5 +1,7 @@
 import React from "react";
 
+import { withAuthorization } from "../Session/index";
+
 const Dashboard = (props) => {
     return (
         <div>
@@ -8,4 +10,6 @@ const Dashboard = (props) => {
     );
 };
 
-export default Dashboard;
+const condition = (user) => user !== null;
+
+export default withAuthorization(condition)(Dashboard);

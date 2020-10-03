@@ -8,8 +8,6 @@ import { withUser } from "../Session/index";
 const getRouteObject = (route, name) => ({ route: route, name: name });
 
 const Navigation = (props) => {
-    console.log("Navigation: ", props);
-
     const { user: authUser } = props;
     const navListAuth = [
         getRouteObject(Routes.HOME, "Home"),

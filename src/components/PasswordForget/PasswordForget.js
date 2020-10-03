@@ -5,6 +5,7 @@ import { compose } from "recompose";
 import "./PasswordForget.scss";
 import * as Routes from "../../constants/routes";
 import { withFirebase } from "../Firebase/index";
+import { withAuthorization } from "../Session/index";
 
 const PasswordForget = (props) => {
     return (
@@ -17,6 +18,7 @@ const PasswordForget = (props) => {
 const PasswordForgetFormBase = (props) => {
     const [email, setEmail] = useState("");
     const [error, setError] = useState(null);
+    const inValid = email === "";
 
     const onSubmitHandler = (event) => {
         event.preventDefault();
@@ -43,7 +45,7 @@ const PasswordForgetFormBase = (props) => {
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
                 />
-                <button className="form__btn" onClick={onSubmitHandler}>
+                <button disabled={inValid} className="form__btn" onClick={onSubmitHandler}>
                     Reset Password
                 </button>
             </form>
@@ -53,5 +55,7 @@ const PasswordForgetFormBase = (props) => {
 
 const PasswordForgetForm = compose(withRouter, withFirebase)(PasswordForgetFormBase);
 
-export default PasswordForget;
+const condition = (user) => user !== null;
+
+export default withAuthorization(condition)(PasswordForget);
 export { PasswordForgetForm };
